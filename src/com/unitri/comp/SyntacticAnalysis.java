@@ -47,7 +47,7 @@ public class SyntacticAnalysis {
                 }
             }
 
-            if ( token.getImage().equals( ")" ) ) { //TODO rever fechamento dos parênteses aqui
+            if ( token.getImage().equals( ")" ) ) {
 
                 nextToken();
             } else {
@@ -135,7 +135,15 @@ public class SyntacticAnalysis {
 
         if ( token.getImage().equals( ":<<" ) ) {
 
-            
+            nextToken();
+
+            if ( token.getImage().equals( ")" ) ) {
+
+                nextToken();
+            } else {
+
+                Log.error( "SyntacticAnalysis", "Expected ')', but found: " + token.getImage() );
+            }
         }
     }
 
@@ -235,5 +243,13 @@ public class SyntacticAnalysis {
     private void nextToken() {
 
         token = Main.tokens.get( ++index );
+    }
+
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken( Token token ) {
+        this.token = token;
     }
 }

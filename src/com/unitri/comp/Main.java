@@ -42,7 +42,13 @@ public class Main {
 
         symbols.forEach( symbol -> Log.info( "Main", "Image: " + symbol.getImage() ) );
 
-//        new SyntacticAnalysis().commands();
+        SyntacticAnalysis syntacticAnalysis = new SyntacticAnalysis();
+        syntacticAnalysis.commands();
+
+        if ( syntacticAnalysis.getToken().getImage().equals( "$" ) ) {
+
+            Log.info( "Main", "Success" );
+        }
     }
 
     private static List< Token > categorizeCode( BufferedReader bufferedReader )
