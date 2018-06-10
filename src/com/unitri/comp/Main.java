@@ -43,12 +43,8 @@ public class Main {
         symbols.forEach( symbol -> Log.info( "Main", "Image: " + symbol.getImage() ) );
 
         SyntacticAnalysis syntacticAnalysis = new SyntacticAnalysis();
-        syntacticAnalysis.commands();
+        syntacticAnalysis.start();
 
-        if ( syntacticAnalysis.getToken().getImage().equals( "$" ) ) {
-
-            Log.info( "Main", "Success" );
-        }
     }
 
     private static List< Token > categorizeCode( BufferedReader bufferedReader )
