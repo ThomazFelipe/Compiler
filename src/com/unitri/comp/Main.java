@@ -12,9 +12,10 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    protected static List< Token > tokens = new ArrayList<>();
-    protected static List< Symbol > symbols = new ArrayList<>();
+    static List< Token > tokens = new ArrayList<>();
+    private static List< Symbol > symbols = new ArrayList<>();
     private static Long countLine = 1L;
+    private static Token tokenClsAux;
 
     public static void main( String[] args )
             throws IOException {
@@ -59,6 +60,12 @@ public class Main {
 
                 if ( lexeme.contains( "#" ) )
                     break;
+
+                if ( lexeme.equals( "*$*" ) ) {
+
+                    tokens.add( tokenClsAux );
+                    break;
+                }
 
                 token = new Token()
                         .image( lexeme )
@@ -136,13 +143,13 @@ public class Main {
             String cls = line.substring( line.indexOf( "\"" ) + 1,
                     line.lastIndexOf( "\"" ) );
 
-            String lineResult = line.replace( "\"" + cls + "\"", "" );
+            String lineResult = line.replace( "\"" + cls + "\"", "*$*" );
 
-            tokens.add( new Token().categorizationEnum( CategorizationEnum.CLS )
+            tokenClsAux = new Token().categorizationEnum( CategorizationEnum.CLS )
                     .image( cls )
                     .line( countLine )
                     .column( ( long ) line.indexOf( "\"" ) + 1 )
-                    .index( -1L ) );
+                    .index( -1L );
 
             return List.of( lineResult.split( " " ) );
         }
