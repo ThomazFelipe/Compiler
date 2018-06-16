@@ -1,6 +1,6 @@
 package com.unitri.comp;
 
-public enum CategorizationEnum {
+enum CategorizationEnum {
 
-    RESERVED_WORD, DELIMITER, OPERATOR, CLS, IDENTIFIER, END_OF_CHAIN
+    RESERVED_WORD, DELIMITER, OPERATOR, CLS, CLI, CLR, IDENTIFIER, END_OF_CHAIN
 }

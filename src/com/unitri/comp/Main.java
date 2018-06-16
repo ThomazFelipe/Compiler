@@ -64,7 +64,7 @@ public class Main {
                 if ( lexeme.equals( "*$*" ) ) {
 
                     tokens.add( tokenClsAux );
-                    break;
+                    continue;
                 }
 
                 token = new Token()

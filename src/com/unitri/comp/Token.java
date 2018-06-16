@@ -1,6 +1,6 @@
 package com.unitri.comp;
 
-public class Token {
+class Token {
 
     private String image;
 
@@ -12,51 +12,51 @@ public class Token {
 
     private Long index;
 
-    public String getImage() {
+    String getImage() {
         return image;
     }
 
-    public Token image( String image ) {
+    Token image( String image ) {
 
         this.image = image;
         return this;
     }
 
-    public CategorizationEnum getCategoryEnum() {
+    CategorizationEnum getCategoryEnum() {
         return categorizationEnum;
     }
 
-    public Token categorizationEnum( CategorizationEnum categorizationEnum ) {
+    Token categorizationEnum( CategorizationEnum categorizationEnum ) {
 
         this.categorizationEnum = categorizationEnum;
         return this;
     }
 
-    public Long getLine() {
+    Long getLine() {
         return line;
     }
 
-    public Token line( Long line ) {
+    Token line( Long line ) {
 
         this.line = line;
         return this;
     }
 
-    public Long getColumn() {
+    Long getColumn() {
         return column;
     }
 
-    public Token column( Long column ) {
+    Token column( Long column ) {
 
         this.column = column;
         return this;
     }
 
-    public Long getIndex() {
+    Long getIndex() {
         return index;
     }
 
-    public Token index( Long index ) {
+    Token index( Long index ) {
 
         this.index = index;
         return this;

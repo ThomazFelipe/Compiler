@@ -1,5 +1,6 @@
 package com.unitri.comp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
@@ -10,13 +11,13 @@ public class Node {
 
     private Node dad;
 
-    private List< Node > sons;
+    private List< Node > sons = new ArrayList<>();
 
-    public Node( String type ) {
+    Node( String type ) {
         this.type = type;
     }
 
-    public Node( Token token ) {
+    Node( Token token ) {
         this.token = token;
     }
 
@@ -44,7 +45,7 @@ public class Node {
         this.dad = dad;
     }
 
-    public List< Node > getSons() {
+    List< Node > getSons() {
         return sons;
     }
 
@@ -52,7 +53,7 @@ public class Node {
         this.sons = sons;
     }
 
-    public void addSon( Node son ) {
+    void addSon( Node son ) {
         sons.add( son );
         son.dad = this;
     }

@@ -1,20 +1,21 @@
 package com.unitri.comp;
 
-public class SyntacticAnalysis {
+class SyntacticAnalysis {
 
     private Token token = new Token();
     private int index = -1;
-    private Node root;
 
-    protected void start() {
+    void start() {
 
         nextToken();
-        root = commands();
+        Node root = commands();
 
         if ( token.getCategoryEnum().equals( CategorizationEnum.END_OF_CHAIN ) ) {
 
             Log.info( "Main", "Success" );
         }
+
+        showTree( root );
     }
 
     private Node commands() {
@@ -23,8 +24,11 @@ public class SyntacticAnalysis {
 
         node.addSon( new Node( token ) );
 
-        node.addSon( command() );
-        node.addSon( commands() );
+        if ( token.getImage().equals( "(" ) ) {
+
+            node.addSon( command() );
+            node.addSon( commands() );
+        }
 
         return node;
     }
@@ -60,6 +64,10 @@ public class SyntacticAnalysis {
                     case ":<<":
 
                         node.addSon( input() );
+                        break;
+                    case ":>>":
+
+                        node.addSon( output() );
                         break;
                     default:
                         Log.error( "SyntacticAnalysis", "Expected identifier, '=', '...', '?' ou ':<<' but found: " + token.getImage() );
@@ -183,14 +191,32 @@ public class SyntacticAnalysis {
             node.addSon( new Node( token ) );
             nextToken();
 
-            if ( token.getImage().equals( ")" ) ) {
+            if ( token.getCategoryEnum().equals( CategorizationEnum.IDENTIFIER ) ) {
 
                 node.addSon( new Node( token ) );
                 nextToken();
             } else {
 
-                Log.error( "SyntacticAnalysis", "Expected ')', but found: " + token.getImage() );
+                Log.error( "SyntacticAnalysis", "Expected variable, but found: " + token.getImage() );
             }
+        }
+
+        return node;
+    }
+
+    private Node output() {
+
+        Node node = new Node( "output" );
+
+        if ( token.getImage().equals( ":>>" ) ) {
+
+            node.addSon( new Node( token ) );
+            nextToken();
+
+            node.addSon( expression() );
+        } else {
+
+            Log.error( "SyntacticAnalysis", "Expected ':>>', but found: " + token.getImage() );
         }
 
         return node;
@@ -270,7 +296,8 @@ public class SyntacticAnalysis {
 
         Node node = new Node( "expression" );
 
-        if ( token.getImage().equals( "" ) ) { //TODO revision comparision because CLI, CLS, CLR, CLL and ID
+        if ( token.getCategoryEnum().equals( CategorizationEnum.CLS ) ||
+                token.getCategoryEnum().equals( CategorizationEnum.IDENTIFIER ) ) {
 
             node.addSon( operands() );
         } else {
@@ -302,7 +329,25 @@ public class SyntacticAnalysis {
 
     private Node operands() {
 
-        Node node = new Node( "operands" ); //TODO revision this method
+        Node node = new Node( "operands" );
+
+        if ( token.getCategoryEnum().equals( CategorizationEnum.IDENTIFIER ) ) {
+
+            if ( token.getImage().matches( Constants.DECIMAL ) ) {
+
+                token.categorizationEnum( CategorizationEnum.CLR );
+            } else if ( token.getImage().matches( Constants.INTEGER ) ) {
+
+                token.categorizationEnum( CategorizationEnum.CLI );
+            }
+
+            node.addSon( new Node( token ) );
+        } else {
+
+            node.addSon( new Node( token ) );
+        }
+
+        nextToken();
         return node;
     }
 
@@ -327,17 +372,9 @@ public class SyntacticAnalysis {
         token = Main.tokens.get( ++index );
     }
 
-    Token getToken() {
-        return token;
-    }
+    private void showTree( Node node ) {
 
-    public void setToken( Token token ) {
-        this.token = token;
-    }
-
-    public void showTree() {
-
-        showNode( root, "   " );
+        showNode( node, "   " );
     }
 
     private void showNode( Node node, String space ) {
