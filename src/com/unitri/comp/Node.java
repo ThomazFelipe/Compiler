@@ -2,6 +2,7 @@ package com.unitri.comp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Node {
 
@@ -60,5 +61,11 @@ public class Node {
 
     public Node getSon( int index ) {
         return sons.get( index );
+    }
+
+    @Override
+    public String toString() {
+
+        return Objects.nonNull( type ) ? type : token.getImage();
     }
 }
